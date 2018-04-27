@@ -108,8 +108,6 @@ export default class Gallery extends PureComponent {
                 }
                 if (Math.abs(gestureState.dy) > Math.abs(gestureState.dx)) {
                     this.activeResponder = this.imageResponder
-                } else {
-                    this.activeResponder = this.viewPagerResponder
                 }
 
                 this.activeResponder.onMove(evt, gestureState)
