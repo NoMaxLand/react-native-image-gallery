@@ -15,6 +15,7 @@ export default class Gallery extends PureComponent {
         images: PropTypes.arrayOf(PropTypes.object),
         initialPage: PropTypes.number,
         scrollViewStyle: ViewPropTypes ? ViewPropTypes.style : View.propTypes.style,
+        resetOnPageChange: PropTypes.bool,
         pageMargin: PropTypes.number,
         onPageSelected: PropTypes.func,
         onPageScrollStateChanged: PropTypes.func,
@@ -227,7 +228,7 @@ export default class Gallery extends PureComponent {
     }
 
     onPageScrollStateChanged (state) {
-        if (state === 'idle') {
+        if (state === 'idle' && this.props.resetOnPageChange) {
             this.resetHistoryImageTransform();
         }
         this.props.onPageScrollStateChanged && this.props.onPageScrollStateChanged(state);
