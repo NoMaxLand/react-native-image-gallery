@@ -67,7 +67,7 @@ export default class Gallery extends PureComponent {
                     this.activeResponder.onEnd(evt, gestureState, true);
                     this.getViewPagerInstance().flingToPage(this.currentPage, gestureState.vx);
                 } else {
-                    if ((gestureState.vy > 1.5 || gestureState.dy > Dimensions.get('window').height /2) && this.getImageTransformer(this.currentPage).state.scale === 1) {
+                    if ((Math.abs(gestureState.vy) > 1.5 || Math.abs(gestureState.dy) > Dimensions.get('window').height / 2) && this.getImageTransformer(this.currentPage).state.scale === 1) {
                         this.props.onSwipedVertical && this.props.onSwipedVertical(evt, gestureState)
                     }
                     this.activeResponder.onEnd(evt, gestureState);
