@@ -4,7 +4,8 @@ import {
     FlatList,
     ViewPropTypes,
     InteractionManager,
-    Dimensions
+    Dimensions,
+    Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Scroller from 'react-native-scroller';
@@ -207,7 +208,7 @@ export default class ViewPager extends PureComponent {
         page = this.validPage(page);
         this.onPageChanged(page);
 
-        velocityX *= -1000; // per sec
+        velocityX *= -100; // -1000 per sec
         const finalX = this.getScrollOffsetOfPage(page);
         this.scroller.fling(this.scroller.getCurrX(), 0, velocityX, 0, finalX, finalX, 0, 0);
     }
@@ -325,7 +326,8 @@ export default class ViewPager extends PureComponent {
                   data={pageDataArray}
                   renderItem={this.renderRow}
                   onLayout={this.onLayout}
-
+                  showsHorizontalScrollIndicator={false}
+                  showsVerticalScrollIndicator={false}
                   // use contentOffset instead of initialScrollIndex so that we don't have
                   // to use the buggy 'getItemLayout' prop. See
                   // https://github.com/facebook/react-native/issues/15734#issuecomment-330616697 and
