@@ -1,12 +1,17 @@
 import React, { PureComponent } from "react";
-import { View, ViewPropTypes, Dimensions } from "react-native";
+import {
+  View,
+  ViewPropTypes,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import PropTypes from "prop-types";
 import { createResponder } from "react-native-gesture-responder";
 import TransformableImage from "./libraries/TransformableImage";
 import ViewPager from "./libraries/ViewPager";
 
 const DEFAULT_FLAT_LIST_PROPS = {
-  windowSize: 3
+  windowSize: 3,
 };
 
 export default class Gallery extends PureComponent {
@@ -14,6 +19,7 @@ export default class Gallery extends PureComponent {
     ...View.propTypes,
     images: PropTypes.arrayOf(PropTypes.object),
     initialPage: PropTypes.number,
+    imageLoadingIndicatorProps: PropTypes.shape(ActivityIndicator.propTypes),
     scrollViewStyle: ViewPropTypes ? ViewPropTypes.style : View.propTypes.style,
     resetOnPageChange: PropTypes.bool,
     pageMargin: PropTypes.number,
@@ -28,14 +34,14 @@ export default class Gallery extends PureComponent {
     removeClippedSubviews: PropTypes.bool,
     imageComponent: PropTypes.func,
     errorComponent: PropTypes.func,
-    flatListProps: PropTypes.object
+    flatListProps: PropTypes.object,
   };
 
   static defaultProps = {
     removeClippedSubviews: true,
     imageComponent: undefined,
     scrollViewStyle: {},
-    flatListProps: DEFAULT_FLAT_LIST_PROPS
+    flatListProps: DEFAULT_FLAT_LIST_PROPS,
   };
 
   imageRefs = new Map();
@@ -144,7 +150,7 @@ export default class Gallery extends PureComponent {
       onResponderSingleTapConfirmed: (evt, gestureState) => {
         this.props.onSingleTapConfirmed &&
           this.props.onSingleTapConfirmed(this.currentPage);
-      }
+      },
     });
 
     this.viewPagerResponder = {
@@ -160,7 +166,7 @@ export default class Gallery extends PureComponent {
           gestureState,
           disableSettle
         );
-      }
+      },
     };
 
     this.imageResponder = {
@@ -185,7 +191,7 @@ export default class Gallery extends PureComponent {
         currentImageTransformer &&
           currentImageTransformer.onResponderRelease(evt, gestureState);
         clearTimeout(this._longPressTimeout);
-      }
+      },
     };
   }
 
@@ -274,7 +280,8 @@ export default class Gallery extends PureComponent {
       onViewTransforming,
       onTransformGestureReleased,
       errorComponent,
-      imageComponent
+      imageComponent,
+      imageLoadingIndicatorProps,
     } = this.props;
     return (
       <TransformableImage
@@ -295,6 +302,7 @@ export default class Gallery extends PureComponent {
         errorComponent={errorComponent}
         imageComponent={imageComponent}
         image={pageData}
+        imageLoadingIndicatorProps={imageLoadingIndicatorProps}
       />
     );
   }
@@ -305,7 +313,7 @@ export default class Gallery extends PureComponent {
       transformer.forceUpdateTransform({
         scale: 1,
         translateX: 0,
-        translateY: 0
+        translateY: 0,
       });
     }
 
@@ -314,7 +322,7 @@ export default class Gallery extends PureComponent {
       transformer.forceUpdateTransform({
         scale: 1,
         translateX: 0,
-        translateY: 0
+        translateY: 0,
       });
     }
   }
@@ -334,7 +342,7 @@ export default class Gallery extends PureComponent {
 
     const flatListProps = {
       ...DEFAULT_FLAT_LIST_PROPS,
-      ...this.props.flatListProps
+      ...this.props.flatListProps,
     };
 
     return (
