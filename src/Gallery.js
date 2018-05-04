@@ -20,6 +20,12 @@ export default class Gallery extends PureComponent {
     images: PropTypes.arrayOf(PropTypes.object),
     initialPage: PropTypes.number,
     imageLoadingIndicatorProps: PropTypes.shape(ActivityIndicator.propTypes),
+    loadingText: PropTypes.string,
+    loadingTextStyle: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array,
+      PropTypes.number,
+    ]),
     scrollViewStyle: ViewPropTypes ? ViewPropTypes.style : View.propTypes.style,
     resetOnPageChange: PropTypes.bool,
     pageMargin: PropTypes.number,
@@ -282,6 +288,8 @@ export default class Gallery extends PureComponent {
       errorComponent,
       imageComponent,
       imageLoadingIndicatorProps,
+      loadingText,
+      loadingTextStyle,
     } = this.props;
     return (
       <TransformableImage
@@ -303,6 +311,8 @@ export default class Gallery extends PureComponent {
         imageComponent={imageComponent}
         image={pageData}
         imageLoadingIndicatorProps={imageLoadingIndicatorProps}
+        loadingText={loadingText}
+        loadingTextStyle={loadingTextStyle}
       />
     );
   }

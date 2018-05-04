@@ -5,6 +5,7 @@ import {
   Image,
   ViewPropTypes,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import PropTypes from "prop-types";
 import ViewTransformer from "../ViewTransformer";
@@ -33,6 +34,12 @@ export default class TransformableImage extends PureComponent {
     resizeMode: PropTypes.string,
     errorComponent: PropTypes.func,
     imageLoadingIndicatorProps: PropTypes.shape(ActivityIndicator.propTypes),
+    loadingText: PropTypes.string,
+    loadingTextStyle: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array,
+      PropTypes.number,
+    ]),
   };
 
   static defaultProps = {
@@ -196,6 +203,8 @@ export default class TransformableImage extends PureComponent {
       onViewTransformed,
       onViewTransforming,
       imageLoadingIndicatorProps,
+      loadingText,
+      loadingTextStyle,
     } = this.props;
 
     let maxScale = 8;
@@ -255,7 +264,27 @@ export default class TransformableImage extends PureComponent {
           {error ? this.renderError() : content}
         </ViewTransformer>
         {!imageLoaded && (
-          <ImageLoadingIndicator {...imageLoadingIndicatorProps} />
+          <View
+            style={{
+              height: Dimensions.get("window").height,
+              width: Dimensions.get("window").width,
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <ImageLoadingIndicator {...imageLoadingIndicatorProps} />
+            {loadingText && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  marginTop: imageLoadingIndicatorProps.size + 40 || 60,
+                  ...loadingTextStyle,
+                }}
+              >
+                {loadingText}
+              </Text>
+            )}
+          </View>
         )}
       </View>
     );
